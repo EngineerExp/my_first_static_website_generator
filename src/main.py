@@ -1,6 +1,6 @@
 import os
 import shutil
-from generate_page import generate_page
+from generate_pages_recursive import generate_pages_recursive
 
 def copy_src_to_dst(src_path, dst_path):
     # Ensure the destination directory exists
@@ -43,11 +43,11 @@ def main():
     copy_src_to_dst(src_static_dir, dst_public_dir)
     print("\nCopy process complete!\n")
 
-    #   generate a page from content/index.md using template.html to public/index.html
-    from_path = os.path.join(project_root, 'content', 'index.md')
+    # reciursively generate pages from content markdown files to public directory as html files
+    from_path = os.path.join(project_root, 'content')
     template_path = os.path.join(project_root, 'template.html')
-    dest_path = os.path.join(project_root, 'public', 'index.html')
-    generate_page(from_path, template_path, dest_path)
+    dest_path = os.path.join(project_root, 'public')
+    generate_pages_recursive(from_path, template_path, dest_path)
 
 
 if __name__ == "__main__":
