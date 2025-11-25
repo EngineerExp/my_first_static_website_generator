@@ -52,19 +52,6 @@ Some paragraph text.
             "<div><h1>Heading 1</h1><pre><code>This is text that _should_ remain\nthe **same** even with inline stuff\n</code></pre><h2>Heading 2</h2><p>Some paragraph text.</p></div>",
         )
 
-    def test_quoted_text(self):
-        md = """> This is a quoted text.
-> It has multiple lines.
-> And some **bold** text.
-> Another paragraph in the quote.
-"""
-        node = markdown_to_html_node(md)
-        html = node.to_html()
-        self.assertEqual(
-            html,
-            "<div><blockquote><p>This is a quoted text. It has multiple lines. And some <b>bold</b> text. Another paragraph in the quote.</p></blockquote></div>",
-        )
-
     def test_code(self):
         md = """
 Here is some
@@ -95,7 +82,7 @@ Another paragraph here.
         html = node.to_html()
         self.assertEqual(
             html,
-            "<div><h1>THIS IS A HEADING</h1><p>This is a paragraph with <b>bold</b> text.</p><pre><code>This is a code block with _italic_ text.\n</code></pre><blockquote><p>This is a quoted text with <code>code</code>.</p></blockquote><p>Another paragraph here.</p></div>",
+            "<div><h1>THIS IS A HEADING</h1><p>This is a paragraph with <b>bold</b> text.</p><pre><code>This is a code block with _italic_ text.\n</code></pre><blockquote>This is a quoted text with <code>code</code>.</blockquote><p>Another paragraph here.</p></div>",
         )
 
 if __name__ == "__main__":

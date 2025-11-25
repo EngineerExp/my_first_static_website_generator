@@ -18,7 +18,7 @@ def extract_title(markdown):
             return line[2:].strip()
     raise Exception("No h1 (# ...) title found in the markdown content. Make sure a space is between # and the title.")
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
     """
     Recursively generates static HTML pages from markdown files in a directory and makes the same directory structure in the destination as needed.
 
@@ -39,8 +39,8 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
             if not os.path.exists(dest_item_path):
                 os.makedirs(dest_item_path, exist_ok=True)
             # Recursively process the subdirectory
-            generate_pages_recursive(item_path, template_path, dest_item_path)
+            generate_pages_recursive(item_path, template_path, dest_item_path, basepath)
         elif item.endswith('.md'):
             # If the item is a markdown file, generate the HTML page
             dest_html_path = os.path.splitext(dest_item_path)[0] + '.html'
-            generate_page(item_path, template_path, dest_html_path)
+            generate_page(item_path, template_path, dest_html_path, basepath)

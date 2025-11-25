@@ -1,6 +1,8 @@
 import os
 import shutil
 from generate_pages_recursive import generate_pages_recursive
+import sys
+
 
 def copy_src_to_dst(src_path, dst_path):
     # Ensure the destination directory exists
@@ -24,30 +26,40 @@ def copy_src_to_dst(src_path, dst_path):
 def main():
     print("Welcome to My First Static Website Generator!")
 
-    # delete public directory if it exists
-    public_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'public')
-    if os.path.exists(public_dir):
-        print(f"Deleting existing public directory: {public_dir}")
-        shutil.rmtree(public_dir)
+    ## use sys.argv to change basepath
+    basepath = "/"
+    if len(sys.argv) == 2:
+        basepath = sys.argv[1]
+    elif len(sys.argv) > 2: # else, there are too many arguements
+        raise Exception("use <main.py> for local generation or <main.py> '/path_to_repo/' to generate html for local use or repo/website use respectively")
+    
+    print(f"basepath  is: {basepath}")
 
-    # remake public directory
-    print(f"Creating public directory: {public_dir}")
-    os.makedirs(public_dir)
+    # delete {destination} directory if it exists
+    destination = "docs"
+    to_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), f'{destination}')
+    if os.path.exists(to_dir):
+        print(f"Deleting existing destination directory: {to_dir}")
+        shutil.rmtree(to_dir)
+
+    # remake {destination} directory
+    print(f"Creating {destination} directory: {to_dir}")
+    os.makedirs(to_dir)
 
     # define source and destination directories
     project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     src_static_dir = os.path.join(project_root, 'static')
-    dst_public_dir = os.path.join(project_root, 'public')
+    dst_to_dir = os.path.join(project_root, f'{destination}')
 
-    print(f"\nStarting copy from \n{src_static_dir} to \n{dst_public_dir}")
-    copy_src_to_dst(src_static_dir, dst_public_dir)
+    print(f"\nStarting copy from \n{src_static_dir} to \n{dst_to_dir}")
+    copy_src_to_dst(src_static_dir, dst_to_dir)
     print("\nCopy process complete!\n")
 
-    # reciursively generate pages from content markdown files to public directory as html files
+    # reciursively generate pages from content markdown files to {destination} directory as html files
     from_path = os.path.join(project_root, 'content')
     template_path = os.path.join(project_root, 'template.html')
-    dest_path = os.path.join(project_root, 'public')
-    generate_pages_recursive(from_path, template_path, dest_path)
+    dest_path = os.path.join(project_root, f'{destination}')
+    generate_pages_recursive(from_path, template_path, dest_path, basepath)
 
 
 if __name__ == "__main__":

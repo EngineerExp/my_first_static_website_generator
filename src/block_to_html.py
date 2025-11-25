@@ -53,28 +53,30 @@ def markdown_to_html_node(markdown: str) -> ParentNode:
                         ],
                     )
                 )
-            # Quoted text
+            # put all quoted lines into a single blockquote without separate paragraphs
             case BlockType.QUOTE:
-                first_line = block.split("\n", 1)[0]
-                quote_children = text_to_children(first_line.lstrip("> ").strip())
+                lines = block.split("\n") #split into lines
+
+                # strip leading '> ' or '>' from each line
+                stripped = []
+                for line in lines:
+                    if line.startswith(">"):
+                        content = line[1:]
+                        if content.startswith(" "):
+                            content = content[1:]
+                        stripped.append(content)
+                    else:
+                        stripped.append(line)
+                
+                quote_content = " ".join(stripped).strip()
+                
                 html_children.append(
                     ParentNode(
                         tag="blockquote",
-                        children=quote_children,
+                        children=text_to_children(quote_content),
                     )
                 )
-                next_lines = block.split("\n")[1:]
-                for line in next_lines:
-                    stripped_line = line.strip()
-                    if stripped_line == ">": #handle empty line in quote block
-                        continue  # Skip empty lines within the quote block
-                    quote_children = text_to_children(line.lstrip("> ").strip())
-                    html_children.append(
-                        ParentNode(
-                            tag="p",
-                            children=quote_children,
-                        )
-                    )
+              
                     
             case BlockType.UNORDERED_LIST:
                 list_items = []

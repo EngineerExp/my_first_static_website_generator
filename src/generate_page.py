@@ -18,7 +18,7 @@ def extract_title(markdown):
     raise Exception("No h1 (# ...) title found in the markdown content. Make sure a space is between # and the title.")
 
 # function to generate a static HTML page from markdown using a template
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     """
     Generates a static HTML page from a markdown file using a template.
 
@@ -28,7 +28,7 @@ def generate_page(from_path, template_path, dest_path):
         dest_path (str): Path to save the generated HTML file.
     """
     # Print that we are generating the page
-    print(f"Generating page from {from_path} to {dest_path} using template {template_path}")
+    print(f"Generating page from \n{from_path} to \n{dest_path} using template \n{template_path}")
 
     # Read the markdown content
     with open(from_path, 'r', encoding='utf-8') as f:
@@ -47,6 +47,7 @@ def generate_page(from_path, template_path, dest_path):
 
     # Replace placeholders in the template
     final_html = template_content.replace('{{ Title }}', title).replace('{{ Content }}', html_content)
+    final_html = final_html.replace('href="/',f'href="{basepath}').replace('src="/',f'src="{basepath}')
 
     # make sure the destination directory exists
     directory = os.path.dirname(dest_path)
