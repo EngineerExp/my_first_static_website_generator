@@ -62,7 +62,7 @@ def main():
     generate_pages_recursive(from_path, template_path, dest_path, basepath)
 
     if basepath != "/":
-        print('\nCommit to git repository and then check out the website! \nhttps://engineerexp.github.io/my_first_static_website_generator/ \n')
+        print(f'\nCommit to git repository and then check out the website! \nhttps://engineerexp.github.io{basepath} \n')
 
 
 if __name__ == "__main__":
