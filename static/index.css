@@ -20,7 +20,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #dda15e;
+  color: #30e42a;
   margin-top: 24px;
   margin-bottom: 16px;
   text-shadow: 2px 2px 4px #000;
@@ -45,9 +45,9 @@ h6 {
 }
 
 a {
-  color: #e0a96d;
+  color: #30e42a;
   text-decoration: none;
-  border-bottom: 2px solid #e0a96d;
+  border-bottom: 2px solid #30e42a;
 }
 
 a:hover {
@@ -63,7 +63,7 @@ ol {
 code {
   background-color: #3c3c42;
   border-radius: 6px;
-  color: #e9c46a;
+  color: #30e42a;
   padding: 0.4em 0.6em;
   font-family: "Courier New", monospace;
 }
